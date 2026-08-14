@@ -1,0 +1,5 @@
+# Spark Dating App ignores
+database.json
+__pycache__/
+*.log
+.DS_Store
