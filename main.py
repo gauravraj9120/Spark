@@ -1,4 +1,5 @@
 import os
+import sys
 import json
 import random
 import asyncio
@@ -513,6 +514,14 @@ async def websocket_endpoint(websocket: WebSocket):
         print(f"WebSocket error: {e}")
         ws_manager.disconnect(websocket)
 
+# Detect if running inside a PyInstaller standalone executable wrapper
+if getattr(sys, 'frozen', False):
+    BASE_DIR = sys._MEIPASS
+else:
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    if not BASE_DIR:
+        BASE_DIR = "."
+
 # Mount Static Files to serve frontend at the Root url '/'
 # Mount static files at root at the end so it doesn't mask API paths
-app.mount("/", StaticFiles(directory=".", html=True), name="static")
+app.mount("/", StaticFiles(directory=BASE_DIR, html=True), name="static")
