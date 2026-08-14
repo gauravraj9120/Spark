@@ -86,6 +86,16 @@
             <div id="onboarding-avatars" class="avatar-selection-container">
               <!-- Dynamically populated from JS -->
             </div>
+            <!-- Custom Upload Option -->
+            <div class="avatar-upload-group">
+              <label for="ob-avatar-upload" class="avatar-upload-label">
+                <i class="fas fa-upload"></i> Upload Custom Photo
+              </label>
+              <input type="file" id="ob-avatar-upload" accept="image/*" style="display: none;">
+              <div id="ob-avatar-preview-wrapper" class="avatar-option" style="display: none;">
+                <img id="ob-avatar-preview-img" src="" alt="Custom Preview">
+              </div>
+            </div>
           </div>
           <!-- Select Interests -->
           <div class="form-group">
@@ -200,9 +210,10 @@
                 <div class="profile-card-header">
                   <div class="profile-avatar-container">
                     <img id="profile-img-preview" class="profile-avatar-img" src="" alt="User Avatar">
-                    <div class="profile-avatar-badge" onclick="navigateToScreen('onboarding')">
-                      <i class="fas fa-pen"></i>
-                    </div>
+                    <label for="profile-img-upload" class="profile-avatar-badge" title="Change Photo">
+                      <i class="fas fa-camera"></i>
+                    </label>
+                    <input type="file" id="profile-img-upload" accept="image/*" style="display: none;">
                   </div>
                   <h3 id="profile-name-age" class="profile-user-name">User Name, Age</h3>
                   <p id="profile-bio-summary" class="profile-user-status">User Bio details goes here.</p>

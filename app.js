@@ -1892,6 +1892,61 @@ function initializeEventListeners() {
   });
   
   document.getElementById('btn-app-reset')?.addEventListener('click', handleResetApp);
+  
+  // Handle Onboarding Custom Photo Upload
+  document.getElementById('ob-avatar-upload')?.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const dataUrl = event.target.result;
+      selectedAvatarUrl = dataUrl;
+      
+      const previewWrapper = document.getElementById('ob-avatar-preview-wrapper');
+      const previewImg = document.getElementById('ob-avatar-preview-img');
+      
+      if (previewWrapper && previewImg) {
+        previewImg.src = dataUrl;
+        previewWrapper.style.display = 'block';
+        
+        // Remove selection from standard list and select the custom preview
+        document.querySelectorAll('.avatar-option').forEach(el => el.classList.remove('selected'));
+        previewWrapper.classList.add('selected');
+      }
+    };
+    reader.readAsDataURL(file);
+  });
+  
+  // Handle Settings Profile Custom Photo Change
+  document.getElementById('profile-img-upload')?.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    
+    const reader = new FileReader();
+    reader.onload = async (event) => {
+      const dataUrl = event.target.result;
+      
+      const preview = document.getElementById('profile-img-preview');
+      if (preview) {
+        preview.src = dataUrl;
+      }
+      
+      if (state.user) {
+        state.user.avatar = dataUrl;
+        saveStateToLocalStorage();
+        
+        if (isBackendMode) {
+          try {
+            await apiFetch('/api/onboard', 'POST', state.user);
+          } catch (err) {
+            console.error("Failed to sync updated avatar to server: ", err);
+          }
+        }
+      }
+    };
+    reader.readAsDataURL(file);
+  });
 }
 
 if (document.readyState === 'loading') {
