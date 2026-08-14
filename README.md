@@ -56,3 +56,26 @@ Once running, open your browser and navigate to: **[http://localhost:8000/](http
 ### Running Offline (Offline Mode)
 To run the app as a pure client-side mockup:
 * Double-click [index.html](file:///d:/Projects_store/index.html) to open it in your browser directly. All state will save to browser `localStorage`.
+
+### Android Project (Android Studio)
+To build and install the native Android wrapper:
+1. Open **Android Studio** and click **Open an Existing Project**.
+2. Select the `spark-android` directory.
+3. Once Gradle syncs, run the app on an Emulator or a connected hardware device. It maps local sync loops automatically via IP `http://10.0.2.2:8000/`.
+
+### Desktop App (Electron)
+To run the desktop application wrapper:
+1. Make sure you have **Node.js** installed, then open your terminal inside the desktop directory:
+   ```bash
+   cd spark-desktop
+   ```
+2. Install package dependencies:
+   ```bash
+   npm install
+   ```
+3. Run the desktop application:
+   ```bash
+   npm start
+   ```
+   This boots the Spark dating app in a mobile-framed standalone window that auto-grants camera inputs.
+
