@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://gauravraj9120.github.io/Spark/sitemap.xml
