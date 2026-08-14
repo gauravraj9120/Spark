@@ -91,4 +91,8 @@ To rebuild this executable from source:
    ./build_exe.ps1
    ```
 
-
+### Progressive Web App (PWA) (Android and PC Installation)
+To install Spark directly onto your Android device or PC via Google Chrome:
+1. Ensure the Python server is running (`http://localhost:8000/`).
+2. **On PC**: Open Chrome, navigate to the URL, and click the **Install App** icon in the address bar to add it to your desktop.
+3. **On Android**: Visit the server address on your phone, open the Chrome settings menu (three dots), and select **Add to Home Screen** to install it.

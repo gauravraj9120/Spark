@@ -3,12 +3,24 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#ff3c70">
   <title>Spark | Find Your Perfect Flame</title>
-  
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="manifest.json">
   <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <!-- Stylesheets -->
   <link rel="stylesheet" href="style.css">
+  <!-- Register Service Worker -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('service-worker.js')
+          .then(reg => console.log('Service Worker registered!'))
+          .catch(err => console.error('Service Worker registration failed:', err));
+      });
+    }
+  </script>
 </head>
 <body>
 
@@ -26,7 +38,6 @@
           </h1>
           <p class="app-tagline">Find your perfect flame</p>
         </div>
-        
         <div class="welcome-actions">
           <button id="btn-get-started" class="btn-primary">
             Get Started <i class="fas fa-arrow-right"></i>
@@ -45,25 +56,21 @@
           <h2 class="onboarding-title">Create Profile</h2>
           <p class="onboarding-subtitle">Share a bit about yourself to meet your match</p>
         </div>
-        
         <form id="onboarding-form">
           <!-- Basic Info -->
           <div class="form-group">
             <label class="form-label" for="ob-name">First Name</label>
             <input type="text" id="ob-name" class="input-control" placeholder="What should we call you?" required maxLength="15">
           </div>
-          
           <div class="form-group">
             <label class="form-label" for="ob-age">Age</label>
             <input type="number" id="ob-age" class="input-control" placeholder="Must be 18 or older" min="18" max="99" required>
           </div>
-          
           <!-- Bio -->
           <div class="form-group">
             <label class="form-label" for="ob-bio">Short Bio</label>
             <textarea id="ob-bio" class="input-control textarea-control" placeholder="Write a short summary about yourself..." maxLength="120"></textarea>
           </div>
-          
           <!-- Gender choice -->
           <div class="form-group">
             <label class="form-label">My Gender</label>
@@ -73,7 +80,6 @@
               <div class="gender-option" data-gender="other">Other</div>
             </div>
           </div>
-          
           <!-- Choose Avatar -->
           <div class="form-group">
             <label class="form-label">Choose Profile Picture</label>
@@ -81,7 +87,6 @@
               <!-- Dynamically populated from JS -->
             </div>
           </div>
-          
           <!-- Select Interests -->
           <div class="form-group">
             <label class="form-label">Interests (Choose your favorites)</label>
@@ -102,7 +107,6 @@
               <div class="interest-tag" data-interest="Cinema"><i class="fas fa-film"></i> Cinema</div>
             </div>
           </div>
-          
           <button type="submit" class="btn-primary" style="margin-top: 15px; margin-bottom: 20px;">
             Let's Spark! <i class="fas fa-check"></i>
           </button>
@@ -114,7 +118,6 @@
            ==================================================================== -->
       <div id="screen-main" class="screen">
         <div class="main-screen-layout">
-          
           <!-- Top Bar Header -->
           <div class="top-bar">
             <span class="top-bar-title">
@@ -124,18 +127,15 @@
               <i class="fas fa-user-cog"></i>
             </div>
           </div>
-          
           <!-- Scrollable Main Content Panels -->
           <div class="main-content-area">
-            
             <!-- Tab A: Card Swiping (Discover View) -->
             <div id="view-discover" class="tab-view active">
-              
               <!-- Card Stack -->
               <div id="card-deck" class="card-deck">
                 <!-- Dynamically populated from JS -->
               </div>
-              
+
               <!-- Empty Stack Screen -->
               <div id="card-deck-empty" class="card-deck-empty">
                 <div class="empty-icon">
@@ -147,7 +147,7 @@
                   Restart Search
                 </button>
               </div>
-              
+
               <!-- Swiping Controls Panels -->
               <div class="discover-actions">
                 <button id="btn-undo" class="action-btn btn-small" title="Undo Last Swipe">
@@ -164,7 +164,7 @@
                 </button>
               </div>
             </div>
-            
+
             <!-- Tab B: Active Conversations list -->
             <div id="view-chats" class="tab-view">
               <div class="chats-scroll-area">
@@ -173,7 +173,7 @@
                   <i class="fas fa-search"></i>
                   <input type="text" id="chats-search" class="search-control" placeholder="Search matches or chats...">
                 </div>
-                
+
                 <!-- Matches horizontal list -->
                 <div style="margin-bottom: 20px;">
                   <h4 class="chats-section-header">New Matches</h4>
@@ -181,7 +181,7 @@
                     <!-- Dynamically populated from JS -->
                   </div>
                 </div>
-                
+
                 <!-- Conversation previews list -->
                 <div>
                   <h4 class="chats-section-header">Messages</h4>
@@ -191,11 +191,11 @@
                 </div>
               </div>
             </div>
-            
+
             <!-- Tab C: User Profile & Preferences Settings -->
             <div id="view-profile" class="tab-view">
               <div class="profile-settings-area">
-                
+
                 <!-- Profile details preview -->
                 <div class="profile-card-header">
                   <div class="profile-avatar-container">
@@ -207,7 +207,7 @@
                   <h3 id="profile-name-age" class="profile-user-name">User Name, Age</h3>
                   <p id="profile-bio-summary" class="profile-user-status">User Bio details goes here.</p>
                 </div>
-                
+
                 <h4 class="settings-section-divider">Discovery Settings</h4>
                 <div class="settings-card">
                   <!-- Distance range preference -->
@@ -218,8 +218,7 @@
                     </div>
                     <input type="range" id="pref-distance" class="slider-input" min="1" max="100" value="25">
                   </div>
-                  
-                  <!-- Age range preference -->
+                                    <!-- Age range preference -->
                   <div class="slider-group">
                     <div class="slider-label-row">
                       <span>Maximum Age Limit</span>
@@ -228,7 +227,7 @@
                     <input type="range" id="pref-age" class="slider-input" min="18" max="70" value="35">
                   </div>
                 </div>
-                
+
                 <h4 class="settings-section-divider">Premium Styles</h4>
                 <div class="settings-card">
                   <div class="theme-selector-grid">
@@ -246,7 +245,6 @@
                     </button>
                   </div>
                 </div>
-                
                 <button id="btn-app-reset" class="logout-btn">
                   <i class="fas fa-trash-alt"></i> Reset App Data
                 </button>
@@ -254,7 +252,6 @@
             </div>
 
           </div>
-          
           <!-- Bottom Navigation Tab Bar -->
           <div class="bottom-nav">
             <div class="nav-tab active" data-tab="discover">
@@ -271,7 +268,7 @@
               <span>Profile</span>
             </div>
           </div>
-          
+
         </div>
       </div>
 
@@ -296,16 +293,13 @@
               </div>
             </div>
           </div>
-          
-          <h4 class="details-section-title">About Me</h4>
+            <h4 class="details-section-title">About Me</h4>
           <p class="details-bio">Wanderlust photographer...</p>
-          
-          <h4 class="details-section-title">Interests</h4>
+            <h4 class="details-section-title">Interests</h4>
           <div class="details-interests interests-grid" style="margin-bottom: 24px;">
             <!-- Rendered via JS -->
           </div>
-          
-          <h4 class="details-section-title">Gallery</h4>
+            <h4 class="details-section-title">Gallery</h4>
           <div class="details-gallery">
             <!-- Rendered via JS -->
           </div>
@@ -339,7 +333,6 @@
             </div>
           </div>
         </div>
-        
         <!-- Messages Area -->
         <div id="chat-messages-area" class="chat-messages-area">
           <!-- Typing Bubble Indicator template -->
@@ -349,7 +342,6 @@
             <div class="typing-dot"></div>
           </div>
         </div>
-        
         <!-- Input controls -->
         <div class="chat-input-bar">
           <input type="text" id="chat-input" class="chat-input-control" placeholder="Type a message...">
@@ -367,7 +359,6 @@
           <span class="match-its">It's a</span>
           <h1 class="match-title">Match!</h1>
         </div>
-        
         <!-- Avatars view -->
         <div class="match-avatars">
           <div class="match-avatar-wrapper match-avatar-user">
@@ -380,7 +371,6 @@
             <img id="match-avatar-matched-img" src="" alt="Match Avatar">
           </div>
         </div>
-        
         <div class="match-overlay-actions">
           <button id="btn-match-chat" class="btn-primary">
             Send Message <i class="fas fa-comments"></i>
@@ -395,7 +385,6 @@
            7. Fullscreen Video Call Overlay
            ==================================================================== -->
       <div id="video-call-overlay" class="video-call-overlay">
-        
         <!-- Outgoing Call State (Ringing) -->
         <div class="video-call-calling-panel">
           <div class="calling-avatar-wrapper">
@@ -409,8 +398,7 @@
         <div class="video-call-connected-panel">
           <!-- Fullscreen Remote Video feed -->
           <img id="video-remote-feed" class="remote-video-feed" src="" alt="Remote Video">
-          
-          <!-- Pip corner local feed -->
+            <!-- Pip corner local feed -->
           <div id="video-user-pip" class="user-video-pip">
             <video id="user-webcam-feed" autoplay muted playsinline class="local-webcam-feed" style="display:none;"></video>
             <img id="user-avatar-fallback" src="" alt="User Fallback" class="local-avatar-fallback">
