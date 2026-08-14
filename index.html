@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#ff3c70">
+  <meta name="google-site-verification" content="FYTsEGxopk-dLSAhOcNlpPrI5jOCS3MfbTIJoo3Ejp0">
+  <title>Spark | Find Your Perfect Flame</title>
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="manifest.json">
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="style.css">
+  <!-- Register Service Worker -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('service-worker.js')
+          .then(reg => console.log('Service Worker registered!'))
+          .catch(err => console.error('Service Worker registration failed:', err));
+      });
+    }
+  </script>
+</head>
+<body>
+
+  <!-- Phone Bezel Mockup Frame for Desktop -->
+  <div class="phone-mockup theme-pink">
+    <div class="app-container">
+
+      <!-- ====================================================================
+           1. Welcome / Landing Screen
+           ==================================================================== -->
+      <div id="screen-welcome" class="screen active">
+        <div class="welcome-logo-container">
+          <h1 class="app-logo">
+            <i class="fas fa-fire"></i> Spark
+          </h1>
+          <p class="app-tagline">Find your perfect flame</p>
+        </div>
+        <div class="welcome-actions">
+          <button id="btn-get-started" class="btn-primary">
+            Get Started <i class="fas fa-arrow-right"></i>
+          </button>
+          <p class="terms-text">
+            By tapping Get Started, you agree to our Terms. Learn how we process your data in our Privacy Policy.
+          </p>
+        </div>
+      </div>
+
+      <!-- ====================================================================
+           2. Onboarding / Profile Setup Screen
+           ==================================================================== -->
+      <div id="screen-onboarding" class="screen">
+        <div class="onboarding-header">
+          <h2 class="onboarding-title">Create Profile</h2>
+          <p class="onboarding-subtitle">Share a bit about yourself to meet your match</p>
+        </div>
+        <form id="onboarding-form">
+          <!-- Basic Info -->
+          <div class="form-group">
+            <label class="form-label" for="ob-name">First Name</label>
+            <input type="text" id="ob-name" class="input-control" placeholder="What should we call you?" required maxLength="15">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="ob-age">Age</label>
+            <input type="number" id="ob-age" class="input-control" placeholder="Must be 18 or older" min="18" max="99" required>
+          </div>
+          <!-- Bio -->
+          <div class="form-group">
+            <label class="form-label" for="ob-bio">Short Bio</label>
+            <textarea id="ob-bio" class="input-control textarea-control" placeholder="Write a short summary about yourself..." maxLength="120"></textarea>
+          </div>
+          <!-- Gender choice -->
+          <div class="form-group">
+            <label class="form-label">My Gender</label>
+            <div class="gender-options">
+              <div class="gender-option selected" data-gender="female">Woman</div>
+              <div class="gender-option" data-gender="male">Man</div>
+              <div class="gender-option" data-gender="other">Other</div>
+            </div>
+          </div>
+          <!-- Choose Avatar -->
+          <div class="form-group">
+            <label class="form-label">Choose Profile Picture</label>
+            <div id="onboarding-avatars" class="avatar-selection-container">
+              <!-- Dynamically populated from JS -->
+            </div>
+            <!-- Custom Upload Option -->
+            <div class="avatar-upload-group">
+              <label for="ob-avatar-upload" class="avatar-upload-label">
+                <i class="fas fa-upload"></i> Upload Custom Photo
+              </label>
+              <input type="file" id="ob-avatar-upload" accept="image/*" style="display: none;">
+              <div id="ob-avatar-preview-wrapper" class="avatar-option" style="display: none;">
+                <img id="ob-avatar-preview-img" src="" alt="Custom Preview">
+              </div>
+            </div>
+          </div>
+          <!-- Select Interests -->
+          <div class="form-group">
+            <label class="form-label">Interests (Choose your favorites)</label>
+            <div class="interests-grid">
+              <div class="interest-tag" data-interest="Photography"><i class="fas fa-camera"></i> Photography</div>
+              <div class="interest-tag" data-interest="Coffee"><i class="fas fa-coffee"></i> Coffee</div>
+              <div class="interest-tag" data-interest="Hiking"><i class="fas fa-hiking"></i> Hiking</div>
+              <div class="interest-tag" data-interest="Art"><i class="fas fa-palette"></i> Art</div>
+              <div class="interest-tag" data-interest="Tech"><i class="fas fa-laptop-code"></i> Tech</div>
+              <div class="interest-tag" data-interest="Coding"><i class="fas fa-code"></i> Coding</div>
+              <div class="interest-tag" data-interest="Fitness"><i class="fas fa-dumbbell"></i> Fitness</div>
+              <div class="interest-tag" data-interest="Travel"><i class="fas fa-plane"></i> Travel</div>
+              <div class="interest-tag" data-interest="Music"><i class="fas fa-music"></i> Music</div>
+              <div class="interest-tag" data-interest="Cooking"><i class="fas fa-utensils"></i> Cooking</div>
+              <div class="interest-tag" data-interest="Yoga"><i class="fas fa-spa"></i> Yoga</div>
+              <div class="interest-tag" data-interest="Wine"><i class="fas fa-wine-glass-alt"></i> Wine</div>
+              <div class="interest-tag" data-interest="Books"><i class="fas fa-book"></i> Books</div>
+              <div class="interest-tag" data-interest="Cinema"><i class="fas fa-film"></i> Cinema</div>
+            </div>
+          </div>
+          <button type="submit" class="btn-primary" style="margin-top: 15px; margin-bottom: 20px;">
+            Let's Spark! <i class="fas fa-check"></i>
+          </button>
+        </form>
+      </div>
+
+      <!-- ====================================================================
+           3. Main Application Screen (Multi-Tab Layout)
+           ==================================================================== -->
+      <div id="screen-main" class="screen">
+        <div class="main-screen-layout">
+          <!-- Top Bar Header -->
+          <div class="top-bar">
+            <span class="top-bar-title">
+              <i class="fas fa-fire"></i> Spark
+            </span>
+            <div class="top-bar-action" onclick="switchTab('profile')">
+              <i class="fas fa-user-cog"></i>
+            </div>
+          </div>
+          <!-- Scrollable Main Content Panels -->
+          <div class="main-content-area">
+            <!-- Tab A: Card Swiping (Discover View) -->
+            <div id="view-discover" class="tab-view active">
+              <!-- Card Stack -->
+              <div id="card-deck" class="card-deck">
+                <!-- Dynamically populated from JS -->
+              </div>
+
+              <!-- Empty Stack Screen -->
+              <div id="card-deck-empty" class="card-deck-empty">
+                <div class="empty-icon">
+                  <i class="fas fa-undo-alt"></i>
+                </div>
+                <h3 class="empty-title">End of the Line!</h3>
+                <p class="empty-subtitle">There's no one new around you. Try expanding your age filters or restart your deck searches.</p>
+                <button id="btn-reset-deck" class="btn-primary" style="max-width: 200px;">
+                  Restart Search
+                </button>
+              </div>
+
+              <!-- Swiping Controls Panels -->
+              <div class="discover-actions">
+                <button id="btn-undo" class="action-btn btn-small" title="Undo Last Swipe">
+                  <i class="fas fa-undo"></i>
+                </button>
+                <button id="btn-nope" class="action-btn btn-large" title="Pass / Nope">
+                  <i class="fas fa-times"></i>
+                </button>
+                <button id="btn-super" class="action-btn btn-small" title="Super Like">
+                  <i class="fas fa-star"></i>
+                </button>
+                <button id="btn-like" class="action-btn btn-large" title="Like / Swiped Right">
+                  <i class="fas fa-heart"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Tab B: Active Conversations list -->
+            <div id="view-chats" class="tab-view">
+              <div class="chats-scroll-area">
+                <!-- Search bar -->
+                <div class="search-container">
+                  <i class="fas fa-search"></i>
+                  <input type="text" id="chats-search" class="search-control" placeholder="Search matches or chats...">
+                </div>
+
+                <!-- Matches horizontal list -->
+                <div style="margin-bottom: 20px;">
+                  <h4 class="chats-section-header">New Matches</h4>
+                  <div id="matches-queue" class="matches-queue">
+                    <!-- Dynamically populated from JS -->
+                  </div>
+                </div>
+
+                <!-- Conversation previews list -->
+                <div>
+                  <h4 class="chats-section-header">Messages</h4>
+                  <div id="conversation-list" class="conversation-list">
+                    <!-- Dynamically populated from JS -->
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Tab C: User Profile & Preferences Settings -->
+            <div id="view-profile" class="tab-view">
+              <div class="profile-settings-area">
+
+                <!-- Profile details preview -->
+                <div class="profile-card-header">
+                  <div class="profile-avatar-container">
+                    <img id="profile-img-preview" class="profile-avatar-img" src="" alt="User Avatar">
+                    <label for="profile-img-upload" class="profile-avatar-badge" title="Change Photo">
+                      <i class="fas fa-camera"></i>
+                    </label>
+                    <input type="file" id="profile-img-upload" accept="image/*" style="display: none;">
+                  </div>
+                  <h3 id="profile-name-age" class="profile-user-name">User Name, Age</h3>
+                  <p id="profile-bio-summary" class="profile-user-status">User Bio details goes here.</p>
+                </div>
+
+                <h4 class="settings-section-divider">Discovery Settings</h4>
+                <div class="settings-card">
+                  <!-- Distance range preference -->
+                  <div class="slider-group">
+                    <div class="slider-label-row">
+                      <span>Maximum Distance</span>
+                      <span id="distance-val" class="slider-value">25 miles</span>
+                    </div>
+                    <input type="range" id="pref-distance" class="slider-input" min="1" max="100" value="25">
+                  </div>
+                                    <!-- Age range preference -->
+                  <div class="slider-group">
+                    <div class="slider-label-row">
+                      <span>Maximum Age Limit</span>
+                      <span id="age-val" class="slider-value">35 years</span>
+                    </div>
+                    <input type="range" id="pref-age" class="slider-input" min="18" max="70" value="35">
+                  </div>
+                </div>
+
+                <h4 class="settings-section-divider">Premium Styles</h4>
+                <div class="settings-card">
+                  <div class="theme-selector-grid">
+                    <button class="theme-btn selected" data-theme="pink">
+                      <div class="theme-color-dot theme-color-pink"></div>
+                      <span>Pink</span>
+                    </button>
+                    <button class="theme-btn" data-theme="purple">
+                      <div class="theme-color-dot theme-color-purple"></div>
+                      <span>Purple</span>
+                    </button>
+                    <button class="theme-btn" data-theme="blue">
+                      <div class="theme-color-dot theme-color-blue"></div>
+                      <span>Blue</span>
+                    </button>
+                  </div>
+                </div>
+                <button id="btn-app-reset" class="logout-btn">
+                  <i class="fas fa-trash-alt"></i> Reset App Data
+                </button>
+              </div>
+            </div>
+
+          </div>
+          <!-- Bottom Navigation Tab Bar -->
+          <div class="bottom-nav">
+            <div class="nav-tab active" data-tab="discover">
+              <i class="fas fa-fire"></i>
+              <span>Discover</span>
+            </div>
+            <div class="nav-tab" data-tab="chats">
+              <i class="fas fa-comments"></i>
+              <span>Chats</span>
+              <span id="chats-tab-badge" class="badge" style="display: none;">0</span>
+            </div>
+            <div class="nav-tab" data-tab="profile">
+              <i class="fas fa-user"></i>
+              <span>Profile</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ====================================================================
+           4. Sliding Bottom Sheet Details Slider
+           ==================================================================== -->
+      <div id="profile-details-sheet" class="profile-details-sheet">
+        <div class="details-handle-bar"></div>
+        <div class="details-scrollable">
+          <div class="details-header">
+            <div id="details-close-btn" class="details-close-btn">
+              <i class="fas fa-times"></i>
+            </div>
+            <div class="details-title-row">
+              <h2 class="details-name">Sophia</h2>
+              <span class="details-age">24</span>
+            </div>
+            <div class="details-meta-row">
+              <div class="details-meta-item">
+                <i class="fas fa-map-marker-alt"></i>
+                <span class="details-distance">4 miles away</span>
+              </div>
+            </div>
+          </div>
+            <h4 class="details-section-title">About Me</h4>
+          <p class="details-bio">Wanderlust photographer...</p>
+            <h4 class="details-section-title">Interests</h4>
+          <div class="details-interests interests-grid" style="margin-bottom: 24px;">
+            <!-- Rendered via JS -->
+          </div>
+            <h4 class="details-section-title">Gallery</h4>
+          <div class="details-gallery">
+            <!-- Rendered via JS -->
+          </div>
+        </div>
+      </div>
+
+      <!-- ====================================================================
+           5. Sliding Active Chat Room Screen
+           ==================================================================== -->
+      <div id="screen-chat-room" class="screen">
+        <!-- Header -->
+        <div class="chat-room-header">
+          <div id="chat-back-btn" class="chat-back-btn">
+            <i class="fas fa-chevron-left"></i>
+          </div>
+          <div class="chat-header-info">
+            <div class="chat-header-avatar">
+              <img id="chat-room-avatar" src="" alt="Avatar">
+            </div>
+            <div>
+              <h4 id="chat-room-name" class="chat-header-name">Sophia</h4>
+              <span class="chat-header-status online"><i class="fas fa-circle" style="font-size: 8px;"></i> Active now</span>
+            </div>
+          </div>
+          <div style="display: flex; gap: 4px;">
+            <div id="chat-call-voice-btn" class="chat-call-btn" title="Voice Call">
+              <i class="fas fa-phone-alt"></i>
+            </div>
+            <div id="chat-call-video-btn" class="chat-call-btn" title="Video Call">
+              <i class="fas fa-video"></i>
+            </div>
+          </div>
+        </div>
+        <!-- Messages Area -->
+        <div id="chat-messages-area" class="chat-messages-area">
+          <!-- Typing Bubble Indicator template -->
+          <div id="chat-typing-indicator" class="typing-indicator">
+            <div class="typing-dot"></div>
+            <div class="typing-dot"></div>
+            <div class="typing-dot"></div>
+          </div>
+        </div>
+        <!-- Input controls -->
+        <div class="chat-input-bar">
+          <input type="text" id="chat-input" class="chat-input-control" placeholder="Type a message...">
+          <button id="chat-send-btn" class="chat-send-btn">
+            <i class="fas fa-paper-plane"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- ====================================================================
+           6. Fullscreen Match Celebration Overlay Modal
+           ==================================================================== -->
+      <div id="match-overlay">
+        <div class="match-celebration-header">
+          <span class="match-its">It's a</span>
+          <h1 class="match-title">Match!</h1>
+        </div>
+        <!-- Avatars view -->
+        <div class="match-avatars">
+          <div class="match-avatar-wrapper match-avatar-user">
+            <img id="match-avatar-user-img" src="" alt="My Avatar">
+          </div>
+          <div class="match-heart-badge">
+            <i class="fas fa-heart"></i>
+          </div>
+          <div class="match-avatar-wrapper match-avatar-matched">
+            <img id="match-avatar-matched-img" src="" alt="Match Avatar">
+          </div>
+        </div>
+        <div class="match-overlay-actions">
+          <button id="btn-match-chat" class="btn-primary">
+            Send Message <i class="fas fa-comments"></i>
+          </button>
+          <button id="btn-match-swipe" class="btn-outline">
+            Keep Swiping
+          </button>
+        </div>
+      </div>
+
+      <!-- ====================================================================
+           7. Fullscreen Video Call Overlay
+           ==================================================================== -->
+      <div id="video-call-overlay" class="video-call-overlay">
+        <!-- Outgoing Call State (Ringing) -->
+        <div class="video-call-calling-panel">
+          <div class="calling-avatar-wrapper">
+            <img id="video-calling-avatar" src="" alt="Calling Avatar">
+          </div>
+          <h2 id="video-calling-name" class="calling-name">Sophia</h2>
+          <span class="calling-status">Spark Video Calling...</span>
+        </div>
+
+        <!-- Connected State -->
+        <div class="video-call-connected-panel">
+          <!-- Fullscreen Remote Video feed -->
+          <img id="video-remote-feed" class="remote-video-feed" src="" alt="Remote Video">
+            <!-- Pip corner local feed -->
+          <div id="video-user-pip" class="user-video-pip">
+            <video id="user-webcam-feed" autoplay muted playsinline class="local-webcam-feed" style="display:none;"></video>
+            <img id="user-avatar-fallback" src="" alt="User Fallback" class="local-avatar-fallback">
+          </div>
+
+          <!-- Video call headers (Timer and captions) -->
+          <div class="video-call-hud">
+            <span id="video-call-timer" class="video-hud-timer">00:00</span>
+            <div id="video-call-captions" class="video-hud-captions" style="display:none;"></div>
+          </div>
+        </div>
+
+        <!-- Call Action controls bar -->
+        <div class="video-call-controls-bar">
+          <button id="btn-video-mute" class="video-control-btn" title="Mute Mic">
+            <i class="fas fa-microphone"></i>
+          </button>
+          <button id="btn-video-camera" class="video-control-btn" title="Toggle Camera">
+            <i class="fas fa-video"></i>
+          </button>
+          <button id="btn-video-end" class="video-control-btn btn-end" title="End Call">
+            <i class="fas fa-phone-slash"></i>
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="app.js"></script>
+</body>
+</html>
