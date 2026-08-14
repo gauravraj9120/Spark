@@ -301,6 +301,27 @@ async function initApp() {
   state.isTransitioning = false;
   state.pendingReplyTimers = {};
   
+  // Dynamically configure PWA assets only when served via HTTP/HTTPS (prevent file:// errors)
+  if (window.location.protocol.startsWith('http')) {
+    if (!document.querySelector('link[rel="manifest"]')) {
+      const link = document.createElement('link');
+      link.rel = 'manifest';
+      link.href = 'manifest.json';
+      document.head.appendChild(link);
+    }
+    if (!document.querySelector('meta[name="theme-color"]')) {
+      const meta = document.createElement('meta');
+      meta.name = 'theme-color';
+      meta.content = '#ff3c70';
+      document.head.appendChild(meta);
+    }
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('service-worker.js')
+        .then(reg => console.log('Service Worker registered!'))
+        .catch(err => console.error('Service Worker registration failed:', err));
+    }
+  }
+  
   if (isBackendMode) {
     try {
       // Sync state from server on startup
