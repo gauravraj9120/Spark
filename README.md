@@ -79,3 +79,16 @@ To run the desktop application wrapper:
    ```
    This boots the Spark dating app in a mobile-framed standalone window that auto-grants camera inputs.
 
+### Standalone Windows Executable (.exe)
+To run the fully self-contained desktop app on Windows:
+1. Make sure no other backend servers are running on port 8000.
+2. Navigate to the `dist` directory and double-click: **[Spark.exe](file:///d:/Projects_store/dist/Spark.exe)**.
+   * This programmatically boots the local FastAPI server in a background thread and opens the viewport window immediately. All match calculations, chats, and calls are fully functional.
+
+To rebuild this executable from source:
+1. Run PowerShell inside your workspace and execute:
+   ```bash
+   ./build_exe.ps1
+   ```
+
+
